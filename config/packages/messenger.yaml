@@ -4,14 +4,20 @@ framework:
         # failure_transport: failed
 
         transports:
-            # https://symfony.com/doc/current/messenger.html#transport-configuration
-            # async: '%env(MESSENGER_TRANSPORT_DSN)%'
-            # failed: 'doctrine://default?queue_name=failed'
-            # sync: 'sync://'
-
+            query-async:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    exchange:
+                        name: messages
+                        type: direct
+                        default_publish_routing_key: query_routing_key
+                    queues:
+                        query-queue:
+                            binding_keys: [query_routing_key]
         routing:
             # Route your messages to the transports
             # 'App\Message\YourMessage': async
+            'App\Message\Event\GameGuessedEvent': query-async
 
 # when@test:
 #    framework:
