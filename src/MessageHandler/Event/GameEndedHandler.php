@@ -3,6 +3,7 @@
 namespace App\MessageHandler\Event;
 
 use App\Message\Event\GameEndedEvent;
+use App\Message\Event\GuessCheckedEvent;
 use App\Repository\GuessesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -37,6 +38,14 @@ class GameEndedHandler
         foreach ($guesses as $guess)
         {
             $guess->setResult($gameEndedEvent->getResult());
+
+            $this->eventBus->dispatch(new GuessCheckedEvent(
+                $gameEndedEvent->getHomeTeam(),
+                $gameEndedEvent->getAwayTeam(),
+                $gameEndedEvent->getResult() === $guess->getGuess() || 0,
+                $guess->getUsername()
+
+            ));
         }
 
         $this->entityManager->flush();

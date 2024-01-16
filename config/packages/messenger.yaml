@@ -34,6 +34,7 @@ framework:
             # 'App\Message\YourMessage': async
             'App\Message\Event\GameEndedEvent': guesses-async
             'App\Message\Event\GameGuessedEvent': query-async
+            'App\Message\Event\GuessCheckedEvent': stats-async
 
 # when@test:
 #    framework:
