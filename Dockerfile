@@ -2,7 +2,7 @@ FROM php:8.2-fpm
 
 RUN apt-get update && \
     apt-get install -y \
-        librabbitmq-dev autoconf pkg-config libssl-dev libzip-dev git gcc make autoconf libc-dev vim unzip libpq-dev libicu-dev && \
+        librabbitmq-dev autoconf pkg-config libssl-dev libzip-dev git gcc make autoconf libc-dev vim unzip libpq-dev libicu-dev supervisor procps && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -25,6 +25,8 @@ RUN curl -sS https://get.symfony.com/cli/installer | bash
 RUN mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
 RUN git config --global user.email "davidcova88@gmail.com" \
     && git config --global user.name "DavidCova"
+
+COPY .docker/supervisor/conf.d/messenger-worker.conf /etc/supervistor/conf.d/messenger-worker.conf
 
 WORKDIR /app
 

@@ -9,4 +9,4 @@ composer install --no-interaction
 
 /app/bin/console doctrine:migrations:migrate -n
 
-symfony server:start --port=8000
+/usr/bin/supervisord -c /etc/supervisor/conf.d/messenger-worker.conf
